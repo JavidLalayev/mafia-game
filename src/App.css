@@ -1,3 +1,262 @@
 .c_game{
-    height: calc(100% - 48px);;
+    height: calc(100vh - 48px);
+    width: 100%!important;
+    padding: 0!important;
+    background-color: red;
+}
+
+.c_game2{
+    height: calc(100vh - 64px);
+    width: 100%!important;
+    padding: 0!important;
+    background-color: #8076a3;
+}
+
+
+.c_game_screen{
+    text-align: right;
+    height: calc(100vh - 48px) !important;
+    background-color: blue;
+    position: relative;
+    top: -15px!important;
+    overflow: auto;
+    padding-top: 15px;
+}
+
+.MuiBox-root{
+    padding: 0!important;
+}
+
+.messages_screen{
+    padding-top: 0px;
+    height: auto;
+    overflow: auto;
+}
+
+
+:root {
+    --mesw:500px;
+    --mess-init-time:.4s;
+}
+
+
+.chat {
+    width: var(--mesw);
+    height: calc(100% - 48px);
+    min-height: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.chat-message {
+    width:calc(100% - 30px);
+    height:auto;
+    background:#222;
+    animation:chat-init var(--mess-init-time) ease-in-out;
+    animation-fill-mode:forwards;
+    border-radius:3px;
+    display:flex;
+    overflow:hidden;
+    padding-left:15px;
+    padding-right:15px;
+    transform-origin:top;
+}
+
+@keyframes chat-init {
+    from {
+        max-height:0;
+        opacity:0;
+        padding-top:0;
+        padding-bottom:0;
+        margin-top:0;
+        margin-bottom:0;
+        transform:scale(0);
+    }
+    to {
+        max-height:200px;
+        opacity:1;
+        padding-top:15px;
+        padding-bottom:15px;
+        margin-top:20px;
+        margin-bottom:20px;
+        transform:scale(1);
+    }
+}
+
+.chat-message > * {
+    height:100%;
+}
+
+.chat-message-av {
+    width:20%;
+}
+
+.chat-message-av > div {
+    width:80%;
+    height:70px;
+    background:red;
+    border-radius:3px;
+}
+
+.chat-message-co {
+    width:80%;
+}
+
+.chat-message-co-basinf {
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.chat-message-co-basinf > * {
+    border-radius:3px;
+}
+
+.chat-message-co-basinf-name {
+    margin-right:5px;
+    width:85px;
+    background:purple;
+    height:22.5px;
+}
+
+.chat-message-co-basinf-date {
+    background:#333;
+    width:50px;
+    margin-left:5px;
+    height:20px;
+    transition:.4s;
+}
+
+.chat-message-co-basinf-date:hover {
+    width:100px;
+    background:rgba(255, 255, 255, .2);
+}
+
+.chat-message-co-mat {
+    width:80%;
+    background:rgba(60, 60, 60, 1);
+    height:20px;
+    border-radius:3px;
+    margin-top:10px;
+    margin-bottom:10px;
+    transition:.4s;
+    animation:message-mat-init .5s var(--mess-init-time);
+    animation-fill-mode:forwards;
+    position:relative;
+    opacity:0;
+    top:15px;
+}
+
+@keyframes message-mat-init {
+    from {
+        top:15px;
+        opacity:0;
+    }
+    to {
+        top:0;
+        opacity:1;
+    }
+}
+
+.chat-message-co-ext {
+    display:flex;
+    width:80%;
+    position:relative;
+    height:calc(var(--mesw) + 100px);
+    margin-top:15px;
+    animation:message-mat-init .5s var(--mess-init-time);
+    animation-fill-mode:forwards;
+    opacity:0;
+    top:15px;
+}
+
+.chat-message-co-ext-sym {
+    margin-right:15px;
+    height:100%;
+    width:10px;
+    border-radius:3px;
+    background:rgba(40, 40, 40, 1);
+}
+
+.chat-message-co-ext-co {
+    width:100%;
+    position:relative;
+}
+
+.chat-message-co-ext-co-mes {
+    width:100%;
+    height:22.5px;
+    margin-bottom:10px;
+    background:rgba(40, 40, 40, 1);
+}
+
+.chat-message-co-ext-co-img {
+    height:115%;
+    width:100%;
+    margin-top:10px;
+    background:rgba(40, 40, 40, 1);
+}
+
+.c_show_players_button{
+    left: 5px;
+    top: 5px;
+    position: absolute;
+    z-index: 9999999!important;
+}
+
+
+
+.c_message_screen{
+    background-color: darkgreen;
+}
+
+.react-swipeable-view-container{
+    height: calc(100vh - 48px) !important;
+}
+
+.c_height{
+    height: calc(100vh - 48px) !important;
+}
+
+
+.c_message_form {
+    position: fixed;
+    padding: 7px;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.c_left{
+    float: left;
+}
+
+.c_input{
+    width: 84%;
+}
+
+.c_civil_messages_screen{
+    background-color: #8076a3;
+}
+
+.c_message_overflow{
+    text-align: right;
+    height: calc(100vh - 48px) !important;
+    background-color: aqua;
+    position: relative;
+    top: -16px!important;
+}
+
+.MuiOutlinedInput-input {
+    padding: 10.5px 14px!important;
+}
+
+.MuiButton-containedPrimary {
+    height: 40px!important;
+}
+
+
+.MuiButton-root {
+     min-width: 50px;
 }

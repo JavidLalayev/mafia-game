@@ -5,39 +5,32 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
+import GameScreen from "./GameScreen";
+import MessageScreen from "./MessageScreen.js";
 
+const TabPanel = React.memo(props => {
 
-function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return (
         <div
+            className={"c_game"}
             role="tabpanel"
             hidden={value !== index}
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+                    {children}
         </div>
     );
-}
+});
 TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
 };
-
 function a11yProps(index) {
     return {
         id: `full-width-tab-${index}`,
@@ -45,13 +38,15 @@ function a11yProps(index) {
     };
 }
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
     },
 }));
 
-export default function FullWidthTabs() {
+const FullWidthTabs = React.memo(props => {
+
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -71,17 +66,21 @@ export default function FullWidthTabs() {
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
                 onChangeIndex={handleChangeIndex}
-                className={"c_game"}
+                // className={"c_game"}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    Item One
+
+                <TabPanel value={value} hidden={false} index={0} dir={theme.direction}>
+                    <GameScreen/>
                 </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    Item Two
+
+                <TabPanel className={"c_game2"} value={value} hidden={false}  index={1} dir={theme.direction}>
+                    <MessageScreen/>
                 </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    Item Three
+
+                <TabPanel value={value} hidden={false}  index={2} dir={theme.direction}>
+                    asdasdass
                 </TabPanel>
+
             </SwipeableViews>
 
             <AppBar position="static" color="default">
@@ -93,13 +92,16 @@ export default function FullWidthTabs() {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                 >
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Oyun" {...a11yProps(0)} />
+                    <Tab label="Chat" {...a11yProps(1)} />
+                    <Tab label="Mafia Chat" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
 
         </div>
     );
-}
+});
+
+export default FullWidthTabs;
+
 

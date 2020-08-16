@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,8 +9,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
 const useStyles = makeStyles({
     list: {
@@ -73,8 +72,8 @@ export default function TemporaryDrawer() {
     return (
         <div style={{position: "absolute", zIndex: "999"}}>
 
-            <Fab onClick={toggleDrawer("left", true)} color="secondary" aria-label="add" className={classes.fabButton}>
-                <AddIcon />
+            <Fab onClick={toggleDrawer("left", true)} color="secondary" aria-label="add" className={classes.fabButton + " c_show_players_button"}>
+                <PeopleOutlineIcon />
             </Fab>
 
             <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>

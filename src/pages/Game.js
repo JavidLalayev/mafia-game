@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import BottomNavigation from "../page-components/game/BottomNavigation";
 import PlayerListToggle from "../page-components/game/PlayerListToggle";
 
