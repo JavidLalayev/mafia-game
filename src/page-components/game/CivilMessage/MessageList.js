@@ -11,7 +11,7 @@ class MessageList extends Component {
 
     render() {
         return (
-            <div>
+            <div className={["c_message_list_screen", "c_civil_list_screen_image", "c_civil_list_screen_height"].join(" ")}>
 
                 <MessageSingle/>
                 <MessageSingle/>

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import MessageForm from './MessageForm'
-import MessageSingle from './MessageSingle'
 import MessageList from './MessageList'
+import MessageScreenHeader from "./MessageScreenHeader";
 
 class MessageScreen extends Component {
     static defaultProps = {};
@@ -13,12 +13,14 @@ class MessageScreen extends Component {
 
     render() {
         return (
-            <div className={"c_message_overflow"}>
+            <div className={["c_message_overflow", "c_civil_list_screen_image"].join(" ")}>
                 <div className={"c_civil_messages_screen"}>
 
-                  <MessageList/>
+                    <MessageScreenHeader/>
 
-                  <MessageForm/>
+                    <MessageList/>
+
+                    <MessageForm/>
 
                 </div>
             </div>

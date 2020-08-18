@@ -13,14 +13,16 @@ class MessageForm extends Component {
 
     render() {
         return (
-            <div className={"c_message_form"}>
+            <div className={["c_message_form"].join(" ")}>
 
-                <TextField className={"c_left c_input"} id="outlined-basic" variant="outlined" />
+                <TextField className={["c_left", "c_input", "c_br_4"].join(" ")}
+                           id="outlined-basic"
+                           variant="outlined" />
 
                 <Button
-                    variant="contained"
-                    color="primary">
-                    <Icon>send</Icon>
+                    className={["c_civil_message_send_button", "c_mafia_message_send_button"].join(" ")}
+                    variant="contained">
+                    <Icon style={{color: "white"}}>send</Icon>
                 </Button>
             </div>
         );

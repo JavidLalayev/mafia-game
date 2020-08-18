@@ -5,9 +5,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
 import GameScreen from "./GameScreen";
-import MessageScreen from "./MessageScreen.js";
+import MessageScreen from "./CivilMessage/MessageScreen";
+import MafiaMessageScreen from "./MafiaMessage/MafiaMessageScreen";
 
 const TabPanel = React.memo(props => {
 
@@ -37,7 +37,6 @@ function a11yProps(index) {
         'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,8 +76,8 @@ const FullWidthTabs = React.memo(props => {
                     <MessageScreen/>
                 </TabPanel>
 
-                <TabPanel value={value} hidden={false}  index={2} dir={theme.direction}>
-                    asdasdass
+                <TabPanel className={"c_game2"}  value={value} hidden={false}  index={2} dir={theme.direction}>
+                    <MafiaMessageScreen/>
                 </TabPanel>
 
             </SwipeableViews>
@@ -94,7 +93,8 @@ const FullWidthTabs = React.memo(props => {
                 >
                     <Tab label="Oyun" {...a11yProps(0)} />
                     <Tab label="Chat" {...a11yProps(1)} />
-                    <Tab label="Mafia Chat" {...a11yProps(2)} />
+                    <Tab label="Mafia Chat" {...a11yProps(2)} />:
+
                 </Tabs>
             </AppBar>
 
