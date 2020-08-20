@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Night from './Night';
+import ChooseSomeone from './ChooseSomeone';
+
 
 class Message extends React.Component {
     constructor(props) {
@@ -10,7 +12,7 @@ class Message extends React.Component {
     render() {
         return(
             <div className="chat-message">
-                asdasdasd
+                <ChooseSomeone/>
             </div>
         );
     }
@@ -29,7 +31,8 @@ class GameScreen extends Component {
     }
 
     componentDidMount() {
-        this.startLoop();
+        // this.startLoop();
+        // this.addMessage();
     }
 
     startLoop = () => {
@@ -38,7 +41,7 @@ class GameScreen extends Component {
                 loop: (
                     setInterval(() => {
                         this.addMessage();
-                    }, 6000)
+                    }, 1000)
                 )
             }
         });
@@ -54,7 +57,7 @@ class GameScreen extends Component {
             this.setState(state => ({
                 messages: [...state.messages, 1]
             }), () => console.log(this.state.messages));
-        }, 10000);
+        }, 1000);
 
     };
 
@@ -63,6 +66,7 @@ class GameScreen extends Component {
             <div className={"c_game_screen"}>
 
                 <Night/>
+
 
                 <div className={"messages_screen"}>
                     <div className="chat">

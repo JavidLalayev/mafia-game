@@ -29,7 +29,7 @@ export default function TemporaryDrawer() {
     // setTimeout(() => {
     //     setState({
     //         bottom:  !state.bottom});
-    // }, 5000);
+    // }, 2000);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

@@ -20,12 +20,12 @@ class MessageScreenHeader extends Component {
         return (
             <AppBar position="static" className="c_dark_green">
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
+                    <div style={{marginRight: "10px"}} color="inherit" aria-label="menu">
                         <Icon className="fa fa-user-secret c_p_0" style={{color: "white"}}/>
-                    </IconButton>
-                    <Typography variant="p  ">
+                    </div>
+                    <div>
                         Mafiaların Məkanı
-                    </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
         );

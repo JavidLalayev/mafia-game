@@ -15,7 +15,7 @@ class MessageForm extends Component {
         return (
             <div className={["c_message_form"].join(" ")}>
 
-                <TextField className={["c_left", "c_input", "c_br_4"].join(" ")}
+                <TextField className="c_left c_input c_br_4 c_input_padding"
                            id="outlined-basic"
                            variant="outlined" />
 

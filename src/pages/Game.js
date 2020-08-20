@@ -1,28 +1,29 @@
-import React, {Component} from 'react';
+import React, {useState, useContext} from 'react';
 import BottomNavigation from "../page-components/game/BottomNavigation";
 import PlayerListToggle from "../page-components/game/PlayerListToggle";
 import NotificationAlert from '../page-components/game/NotificationAlert'
+import {loggingContext} from "../Store";
+import {Redirect} from "react-router-dom"
 
-class Game extends Component {
-    static defaultProps = {};
+export default function  Game(){
 
-    static propTypes = {};
+    const [loggedOn, setLoggedOn] = useContext(loggingContext);
 
-    state = {};
+    return (
+        <div style={{height: "100vh"}}>
 
-    render() {
-        return (
-            <div style={{height: "100vh"}}>
+            {
+                (!loggedOn) ? <Redirect to={"/"}/> : ""
+            }
 
-                <NotificationAlert/>
+            <NotificationAlert/>
 
-                <PlayerListToggle/>
+            <PlayerListToggle/>
 
-                <BottomNavigation/>
+            <BottomNavigation/>
 
-            </div>
-        );
-    }
+        </div>
+    );
+
 }
 
-export default Game;

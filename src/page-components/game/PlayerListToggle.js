@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -7,10 +7,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import Fab from '@material-ui/core/Fab';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import Avatar from '@material-ui/core/Avatar';
+import socket from "../../services/socketIOService";
+import {userTypesContext} from "../../Store";
 
 const useStyles = makeStyles({
     list: {
@@ -21,6 +22,8 @@ const useStyles = makeStyles({
     },
 });
 
+
+
 export default function TemporaryDrawer() {
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -29,8 +32,18 @@ export default function TemporaryDrawer() {
         bottom: false,
         right: false,
     });
+    const [userTypes, setUserTypes] = useContext(userTypesContext);
+
+    socket.on("userUpdate", ({allUsers, spectators, players}) => {
+        setUserTypes({
+            allUsers: allUsers,
+            spectators: spectators,
+            players: players
+        })
+    });
 
     const toggleDrawer = (anchor, open) => (event) => {
+
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
@@ -47,42 +60,38 @@ export default function TemporaryDrawer() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-
                 <span style={{marginLeft: "20px", fontSize: "18px", fontWeight: "bold"}}>Oyunçular</span>
 
-                {['Cavid', 'Samir', 'Mutaib', 'adasd'].map((text, index) => (
-                    <ListItem button key={text}>
+                {
+                    userTypes.allUsers.map((user) =>
+                        <ListItem button key={user.id}>
 
-                        <ListItemIcon>
-                            <Avatar alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/1.jpg" />
+                            <ListItemIcon>
+                                <Avatar alt={user.username} src={user.picture} />
+                            </ListItemIcon>
 
-                        </ListItemIcon>
+                            <ListItemText primary={user.username} />
 
-                        <ListItemText primary={text} />
-
-                    </ListItem>
-                ))}
+                        </ListItem> )
+                }
             </List>
 
             <Divider />
 
+            {
+                (userTypes.spectators.length !== 0) ?
+                    userTypes.spectators.map((user) =>
+                        <ListItem button key={user.id}>
 
-            <List>
-                <span style={{marginLeft: "20px", fontSize: "18px", fontWeight: "bold"}}>İzləyənlər</span>
+                            <ListItemIcon>
+                                <Avatar alt={user.username} src={user.picture} />
+                            </ListItemIcon>
 
-                {['Cavid', 'Samir', 'Mutaib', 'adasd'].map((text, index) => (
-                    <ListItem button key={text}>
+                            <ListItemText primary={user.username} />
 
-                        <ListItemIcon>
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        </ListItem> ) : ""
+            }
 
-                        </ListItemIcon>
-
-                        <ListItemText primary={text} />
-
-                    </ListItem>
-                ))}
-            </List>
         </div>);
 
     return (

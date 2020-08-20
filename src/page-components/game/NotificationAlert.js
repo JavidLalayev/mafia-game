@@ -3,43 +3,48 @@ import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
-import { Bounce } from "react-awesome-reveal";
+
+import donPicture from '../../static/img/don.jpg'
+import doctorPicture from '../../static/img/doctor.jpg'
+import comisarPicture from '../../static/img/comisar.jpg'
+import citizenPicture from '../../static/img/citizen.jpg'
+import mafiaPicture from '../../static/img/mafia.jpg'
 
 
 function SimpleDialog(props) {
-    const { onClose, selectedValue, open } = props;
+    const { onClose, open } = props;
 
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose(false);
     };
 
-
     return (
-        <Bounce>
-            <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                <DialogTitle id="simple-dialog-title">Set backup account
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className="c_dialog">
+            <DialogTitle id="simple-dialog-title">Sənin Rolun
+                <CloseIcon onClick={handleClose}/>
+            </DialogTitle>
+            <div className="c_dialog_body">
 
-                    <CloseIcon onClick={handleClose}/>
-                </DialogTitle>
-                <div className="c_dialog_body">
-                    000em ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam at delectus dignissimos dolorem ea eius illum incidunt mollitia nesciunt, nisi omnis, perspiciatis quisquam rem reprehenderit sint totam voluptas voluptatem.
-                </div>
-            </Dialog>
-        </Bounce>
+                <img src={donPicture} alt="Don" className="c_center"/>
 
+                <p>
+                    Sən donsan vəzifən mafilara rəhbırlik etmən ve blıa blab alblalaedasldjha
+                </p>
+
+            </div>
+        </Dialog>
     );
 }
 
 SimpleDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    selectedValue: PropTypes.string.isRequired,
 };
 
 export default function SimpleDialogDemo() {
     const [open, setOpen] = React.useState(false);
 
-    setTimeout(() => {setOpen(true)}, 1000);
+    // setTimeout(() => {setOpen(true)}, 1000);
 
     const handleClose = (value) => {
         setOpen(false);

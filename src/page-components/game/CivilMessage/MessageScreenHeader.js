@@ -21,9 +21,9 @@ class MessageScreenHeader extends Component {
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <PeopleSharpIcon />
                     </IconButton>
-                    <Typography variant="p  ">
+                    <div>
                         Müzakirə yeri
-                    </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
         );

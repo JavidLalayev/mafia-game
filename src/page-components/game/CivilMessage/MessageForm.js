@@ -1,30 +1,68 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component, useContext, useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
+import socket from "../../../services/socketIOService";
+import {myDataContext} from "../../../Store";
 
-class MessageForm extends Component {
-    static defaultProps = {};
+export default function MessageForm(){
 
-    static propTypes = {};
+    let timeOut;
 
-    state = {};
+    const [value, setValue] = useState("");
+    const [typing, setTyping] = useState(false);
+    const [myData] = useContext(myDataContext);
 
-    render() {
-        return (
-            <div className={"c_message_form"}>
-
-                <TextField className={"c_left c_input"} id="outlined-basic" variant="outlined" />
-
-                <Button
-                    className={"c_civil_message_send_button"}
-                    variant="contained">
-                    <Icon style={{color: "white"}}>send</Icon>
-                </Button>
-            </div>
-        );
+    function sendMessage() {
+        if (value !== "" && !value.includes("<script>")){
+            socket.emit("global_message_send", {sender: myData.username, msg: value, pictureUrl: myData.pictureUrl, socketId: myData.mySocketId})
+            setValue("");
+        }else{
+            alert("Sındırmaqa çalışma!");
+        }
     }
-}
 
-export default MessageForm;
+    function handleChange(e) {
+        setValue(e.target.value);
+    }
+
+
+    const timeoutFunction = () => {
+        setTyping(false);
+        socket.emit("noLongerWriting", {id: myData.mySocketId, username: myData.username, pictureUrl: myData.pictureUrl});
+    };
+
+    function onKeyDownNotEnter(e){
+
+        if (e.keyCode === 13){
+            sendMessage();
+        }else{
+            if(!typing) {
+                setTyping(true);
+                socket.emit("onWriting", {id: myData.mySocketId, username: myData.username, pictureUrl: myData.pictureUrl});
+                timeOut = setTimeout(timeoutFunction, 2000);
+            } else {
+                clearTimeout(timeOut);
+                timeOut = setTimeout(timeoutFunction, 2000);
+            }
+        }
+
+
+    }
+
+
+    return (
+        <div className={"c_message_form"}>
+
+            <TextField onKeyUp={onKeyDownNotEnter} className="c_left c_input c_input_padding"  variant="outlined" value={value} onChange={handleChange}/>
+
+            <Button
+                className={"c_civil_message_send_button"}
+                onClick={sendMessage}
+                variant="contained">
+                <Icon style={{color: "white"}}>send</Icon>
+            </Button>
+        </div>
+    );
+
+}
