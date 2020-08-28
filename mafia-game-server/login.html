@@ -1,0 +1,10 @@
+<form action="chat">
+    <input id="c_user" type="text" name="username">
+    <button id="c_btn" type="submit">Submit</button>
+</form>
+
+<script>
+     document.getElementById("c_btn").addEventListener("click", () => {
+        localStorage.setItem("c_username", document.getElementById("c_user").value)
+     })
+</script>
