@@ -12,6 +12,13 @@ import {loggingContext, myDataContext} from "../Store";
 
 import a1 from "../static/img/a1.jpg"
 import a2 from "../static/img/a2.jpg"
+import a3 from "../static/img/a3.jpg"
+import a4 from "../static/img/a4.jpg"
+import a5 from "../static/img/a5.jpg"
+import a6 from "../static/img/a6.jpg"
+import a7 from "../static/img/a7.jpg"
+import a8 from "../static/img/a8.jpg"
+import a9 from "../static/img/a9.jpg"
 
 
 const Login  = () => {
@@ -42,7 +49,8 @@ const Login  = () => {
                 setMyData({
                     username: state.name,
                     pictureUrl: state.pictureUrl,
-                    mySocketId: mySocketId
+                    mySocketId: mySocketId,
+                    myRole: ""
                 });
                 setLoggedOn(true);
                 setState({
@@ -93,24 +101,31 @@ const Login  = () => {
                                     <Avatar alt="Remy Sharp" src={a2} />
                                 </MenuItem>
 
-                                <MenuItem value={a1}>
-                                    <Avatar alt="Remy Sharp" src={a1} />
+                                <MenuItem value={a3}>
+                                    <Avatar alt="Remy Sharp" src={a3} />
                                 </MenuItem>
 
-                                <MenuItem value={a1}>
-                                    <Avatar alt="Remy Sharp" src={a1} />
+                                <MenuItem value={a4}>
+                                    <Avatar alt="Remy Sharp" src={a4} />
                                 </MenuItem>
 
-                                <MenuItem value={a1}>
-                                    <Avatar alt="Remy Sharp" src={a1} />
+                                <MenuItem value={a5}>
+                                    <Avatar alt="Remy Sharp" src={a5} />
                                 </MenuItem>
 
-                                <MenuItem value={a1}>
-                                    <Avatar alt="Remy Sharp" src={a1} />
+                                <MenuItem value={a6}>
+                                    <Avatar alt="Remy Sharp" src={a6} />
                                 </MenuItem>
 
-                                <MenuItem value={a1}>
-                                    <Avatar alt="Remy Sharp" src={a1} />
+                                <MenuItem value={a7}>
+                                    <Avatar alt="Remy Sharp" src={a7} />
+                                </MenuItem>
+
+                                <MenuItem value={a8}>
+                                    <Avatar alt="Remy Sharp" src={a8} />
+                                </MenuItem>
+                                <MenuItem value={a9}>
+                                    <Avatar alt="Remy Sharp" src={a9} />
                                 </MenuItem>
 
 

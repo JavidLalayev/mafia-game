@@ -1,15 +1,8 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Fab from '@material-ui/core/Fab';
-import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import Avatar from '@material-ui/core/Avatar';
+import {amIMafiaContext, DayContext} from "../../Store";
 
 const useStyles = makeStyles({
     list: {
@@ -23,13 +16,9 @@ const useStyles = makeStyles({
 export default function TemporaryDrawer() {
     const classes = useStyles();
     const [state, setState] = React.useState({
-        bottom: false,
+        bottom: true,
     });
 
-    // setTimeout(() => {
-    //     setState({
-    //         bottom:  !state.bottom});
-    // }, 2000);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -46,7 +35,6 @@ export default function TemporaryDrawer() {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
-
 
         <div className="main-container">
             <div className="stars-container">

@@ -5,18 +5,21 @@ import Button from '@material-ui/core/Button';
 import socket from "../../../services/socketIOService";
 import {myDataContext} from "../../../Store";
 
-export default function MessageForm(){
+let timeOut;
 
-    let timeOut;
+
+export default function MessageForm(){
 
     const [value, setValue] = useState("");
     const [typing, setTyping] = useState(false);
     const [myData] = useContext(myDataContext);
 
     function sendMessage() {
-        if (value !== "" && !value.includes("<script>")){
-            socket.emit("global_message_send", {sender: myData.username, msg: value, pictureUrl: myData.pictureUrl, socketId: myData.mySocketId})
-            setValue("");
+        if (!value.includes("<script>")){
+            if (value !== ""){
+                socket.emit("global_message_send", {sender: myData.username, msg: value, pictureUrl: myData.pictureUrl, socketId: myData.mySocketId});
+                setValue("");
+            }
         }else{
             alert("Sındırmaqa çalışma!");
         }
@@ -40,14 +43,13 @@ export default function MessageForm(){
             if(!typing) {
                 setTyping(true);
                 socket.emit("onWriting", {id: myData.mySocketId, username: myData.username, pictureUrl: myData.pictureUrl});
-                timeOut = setTimeout(timeoutFunction, 2000);
+                timeOut = setTimeout(timeoutFunction, 1000);
             } else {
+                socket.emit("onWriting", {id: myData.mySocketId, username: myData.username, pictureUrl: myData.pictureUrl});
                 clearTimeout(timeOut);
-                timeOut = setTimeout(timeoutFunction, 2000);
+                timeOut = setTimeout(timeoutFunction, 1000);
             }
         }
-
-
     }
 
 

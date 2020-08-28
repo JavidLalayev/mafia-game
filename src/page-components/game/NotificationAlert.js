@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import CloseIcon from '@material-ui/icons/Close';
+import socket from "../../services/socketIOService";
+import {amIMafiaContext, myDataContext} from "../../Store";
+import { ROLES } from '../../Config'
 
 import donPicture from '../../static/img/don.jpg'
 import doctorPicture from '../../static/img/doctor.jpg'
@@ -13,6 +16,28 @@ import mafiaPicture from '../../static/img/mafia.jpg'
 
 function SimpleDialog(props) {
     const { onClose, open } = props;
+    let picture = "";
+
+    switch(props.role) {
+        case ROLES.mafia:
+            picture = mafiaPicture;
+            break;
+        case ROLES.don:
+            picture = donPicture;
+            break;
+        case ROLES.civil:
+            picture = citizenPicture;
+            break;
+        case ROLES.comisar:
+            picture = comisarPicture;
+            break;
+        case ROLES.doctor:
+            picture = doctorPicture;
+            break;
+        default:
+            picture = "";
+
+    }
 
     const handleClose = () => {
         onClose(false);
@@ -25,10 +50,10 @@ function SimpleDialog(props) {
             </DialogTitle>
             <div className="c_dialog_body">
 
-                <img src={donPicture} alt="Don" className="c_center"/>
+                <img src={picture} alt="Don" className="c_center"/>
 
                 <p>
-                    Sən donsan vəzifən mafilara rəhbırlik etmən ve blıa blab alblalaedasldjha
+                    { props.message }
                 </p>
 
             </div>
@@ -42,17 +67,40 @@ SimpleDialog.propTypes = {
 };
 
 export default function SimpleDialogDemo() {
-    const [open, setOpen] = React.useState(false);
 
-    // setTimeout(() => {setOpen(true)}, 1000);
+    const [open, setOpen] = React.useState(false);
+    const [myMessage, setMyMessage] = React.useState("");
+    const [myData, setMyData] = React.useContext(myDataContext);
+    const [amIMafia, setMafia] = React.useContext(amIMafiaContext);
 
     const handleClose = (value) => {
         setOpen(false);
     };
 
+    socket.off("startMessages");
+    socket.on("startMessages", ({start_info_storage, players}) => {
+
+        if(players.some(item => item.id === myData.mySocketId)){
+            const me = players.find(item => item.id === myData.mySocketId);
+            setMyMessage(start_info_storage.find(item => item.for === me.role).content);
+            setMyData({
+                ...myData,
+                myRole: me.role
+            });
+
+            if (me.role === ROLES.mafia || me.role === ROLES.don){
+                setMafia(true);
+            }else{
+                setMafia(false);
+            }
+        }
+
+        setOpen(true);
+    });
+
     return (
         <div>
-            <SimpleDialog open={open} onClose={handleClose} />
+            <SimpleDialog open={open} onClose={handleClose} message={myMessage} role={myData.myRole}/>
         </div>
     );
 }

@@ -1,92 +1,201 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component, useContext, useEffect, useState} from 'react';
 import Night from './Night';
-import ChooseSomeone from './ChooseSomeone';
+import SingleMessage from './SingleMessage';
+import ScrollToBottom from 'react-scroll-to-bottom';
+import socket from "../../services/socketIOService";
+import {amIMafiaContext, DayContext, liveContext, myDataContext} from "../../Store";
+import {ROLES} from "../../Config";
+import MafiaChoose from "./Choosens/MafiaChoose";
+import DoctorChoose from "./Choosens/DoctorChoose";
+import ComisarChoose from "./Choosens/ComisarChoose";
+import PlayerChoose from "./Choosens/PlayerChoose";
 
+const Message = (props) => {
+    return(
+        <div className="chat-message">
+            <SingleMessage message={props.message}/>
+        </div>
+    );
+};
 
-class Message extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+export default () => {
 
-    render() {
-        return(
-            <div className="chat-message">
-                <ChooseSomeone/>
-            </div>
-        );
-    }
-}
+    const [messages, setState] = useState([]);
+    const [isMafiaChoose, setMafiaChoose] = useState(false);
+    const [isDoctorChoose, setDoctorChoose] = useState(false);
+    const [isComisarChoose, setComisarChoose] = useState(false);
+    const [isPlayerChoose, setPlayerChoose] = useState(false);
+    const [isDay, setDay] = useContext(DayContext);
+    const [amIMafia] = useContext(amIMafiaContext);
+    const [myData] = useContext(myDataContext);
+    const [amIDie, setMyLive] = useContext(liveContext);
 
+    const[players, setPlayers] = useState([]);
+    const[playersForMafias, setPlayersForMafias] = useState([]);
 
-class GameScreen extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loop: null,
-            messages: []
-        }
-    }
-
-    componentDidMount() {
-        // this.startLoop();
-        // this.addMessage();
-    }
-
-    startLoop = () => {
-        this.setState(() => {
-            return {
-                loop: (
-                    setInterval(() => {
-                        this.addMessage();
-                    }, 1000)
-                )
-            }
+    const addMessage = (message) => {
+        setState((prevState) => {
+            return([...prevState,message])
         });
     };
 
-    stopLoop = () => {
-        clearInterval(this.state.loop);
+    const start = () => {
+        socket.emit("distributeUser");
     };
 
-    addMessage = () => {
+    socket.off("dayChange");
+    socket.on("dayChange", ({players, game_info, isDay}) => {
 
+        if (players.some(player => player.id === myData.mySocketId)){
+            let index = 0;
+
+            if(!isDay){
+
+                setPlayerChoose(false);
+
+                const interval = setInterval(() => {
+                    addMessage(game_info[index]);
+                    if (index === game_info.length - 1){
+                        socket.emit("all_messages_rendered");
+                        setTimeout(() => {setDay(isDay)}, 2000);
+                        clearInterval(interval);
+                    }
+                    index++;
+
+                }, 2000);
+            }else{
+
+                setMafiaChoose(false);
+                setDoctorChoose(false);
+                setComisarChoose(false);
+                setDay(isDay);
+
+                const interval = setInterval(() => {
+                    addMessage(game_info[index]);
+                    if (index === game_info.length - 1){
+                        socket.emit("all_messages_rendered_in_day");
+                        clearInterval(interval);
+                    }
+                    index++;
+                }, 2000);
+            }
+        }else{
+
+            setMyLive(true);
+            //burda olum mesaji olacaq
+            addMessage({
+                for: ROLES.all,
+                content: "Öldünüz",
+            })
+        }
+
+
+    });
+
+    socket.off("mafiaChoose");
+    socket.on("mafiaChoose", ({message, players}) => {
+        if(amIMafia){
+            setTimeout(() => {
+                addMessage(message);
+                setTimeout(() => {
+                    setPlayersForMafias(players);
+                    setMafiaChoose(true);
+                }, 2000);
+
+            }, 2000);
+        }
+    });
+
+
+    socket.off("doctorChoose");
+    socket.on("doctorChoose", ({message, players}) => {
+        if(myData.myRole === ROLES.doctor){
+            setTimeout(() => {
+                addMessage(message);
+                setTimeout(() => {
+                    setPlayers(players);
+                    setDoctorChoose(true);
+                }, 2000);
+
+            }, 2000);
+        }
+    });
+
+
+    socket.off("comisarChoose");
+    socket.on("comisarChoose", ({message, players}) => {
+        if(myData.myRole === ROLES.comisar){
+            setTimeout(() => {
+                addMessage(message);
+                setTimeout(() => {
+                    setPlayers(players);
+                    setComisarChoose(true);
+                }, 2000);
+
+            }, 2000);
+        }
+    });
+
+
+    socket.off("playerChoose");
+    socket.on("playerChoose", ({message, players}) => {
         setTimeout(() => {
-            this.setState(state => ({
-                messages: [...state.messages, 1]
-            }), () => console.log(this.state.messages));
-        }, 1000);
+            addMessage(message);
+            setTimeout(() => {
+                setPlayers(players);
+                setPlayerChoose(true);
+            }, 2000);
 
-    };
-
-    render() {
-        return(
-            <div className={"c_game_screen"}>
-
-                <Night/>
+        }, 2000);
+    });
 
 
-                <div className={"messages_screen"}>
-                    <div className="chat">
-                        {
-                            this.state.messages.map((item) => {
-                                return(
-                                    <Message/>
-                                );
-                            })
-                        }
-                    </div>
+
+    return(
+        !amIDie ?
+            <ScrollToBottom className={"c_game_screen"}>
+
+            {
+                !isDay && myData.myRole === ROLES.civil ?
+                    <Night/> : ""
+            }
+
+
+
+            <button onClick={start}>adasd</button>
+
+            <div className={"messages_screen"}>
+                <div className="chat">
+                    {
+                        messages.map((item, index) => {
+                            return(
+                                (item.for === myData.myRole || item.for === ROLES.all || (item.for === ROLES.mafia && myData.myRole === ROLES.don)) ? <Message key={index} message={item}/> : ""
+                            );
+                        })
+                    }
+
+                    {
+                        isMafiaChoose ? <MafiaChoose players={playersForMafias}/> : ""
+                    }
+
+                    {
+                        isDoctorChoose ? <DoctorChoose players={players}/> : ""
+                    }
+
+                    {
+                        isComisarChoose ? <ComisarChoose players={players}/> : ""
+                    }
+
+                    {
+                        isPlayerChoose ? <PlayerChoose players={players}/> : ""
+                    }
+
                 </div>
             </div>
-        );
-    }
-
+        </ScrollToBottom> : ""
+    );
 
 }
-
-export default GameScreen;
 
 
 

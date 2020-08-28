@@ -3,13 +3,17 @@ import React, {useState} from 'react';
 export const myDataContext = React.createContext();
 export const userTypesContext = React.createContext();
 export const loggingContext = React.createContext();
+export const amIMafiaContext = React.createContext();
+export const DayContext = React.createContext();
+export const liveContext = React.createContext();
 
 const Store = ({children}) => {
 
     const [myData, setMyData] = useState({
         username: "",
         pictureUrl: "",
-        mySocketId: ""
+        mySocketId: "",
+        myRole: ""
     });
     const [userTypes, setUserTypes] = useState({
         allUsers: [],
@@ -17,6 +21,10 @@ const Store = ({children}) => {
         players: []
     });
     const [loggedOn, setLoggedOn] = useState(false);
+    const [amIMafia, setMafia] = useState(false);
+    const [isDay, setDay] = useState(true);
+    const [amIDie, setMyLive] = useState(false);
+
 
     return(
         <myDataContext.Provider value={[myData, setMyData]}>
@@ -24,7 +32,19 @@ const Store = ({children}) => {
             <userTypesContext.Provider value={[userTypes, setUserTypes]}>
 
                 <loggingContext.Provider value={[loggedOn, setLoggedOn]}>
-                    {children}
+
+                    <amIMafiaContext.Provider value={[amIMafia, setMafia]}>
+
+                        <DayContext.Provider value={[isDay, setDay]}>
+
+                            <liveContext.Provider value={[amIDie, setMyLive]}>
+                                {children}
+                            </liveContext.Provider>
+
+                        </DayContext.Provider>
+
+                    </amIMafiaContext.Provider>
+
                 </loggingContext.Provider>
 
             </userTypesContext.Provider>

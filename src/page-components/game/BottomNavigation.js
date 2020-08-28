@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import GameScreen from "./GameScreen";
 import MessageScreen from "./CivilMessage/MessageScreen";
 import MafiaMessageScreen from "./MafiaMessage/MafiaMessageScreen";
+import {amIMafiaContext} from "../../Store";
 
 const TabPanel = React.memo(props => {
 
@@ -31,6 +32,7 @@ TabPanel.propTypes = {
     index: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
 };
+
 function a11yProps(index) {
     return {
         id: `full-width-tab-${index}`,
@@ -44,11 +46,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+
 const FullWidthTabs = React.memo(props => {
 
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [amIMafia, setMafia] = useContext(amIMafiaContext);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -56,31 +61,51 @@ const FullWidthTabs = React.memo(props => {
 
     const handleChangeIndex = (index) => {
         setValue(index);
+        return false;
     };
 
     return (
         <div style={{height: "100%"}}>
 
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-                // className={"c_game"}
-            >
+            {
+                !amIMafia
+                    ?
+                    <SwipeableViews
+                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
 
-                <TabPanel value={value} hidden={false} index={0} dir={theme.direction}>
-                    <GameScreen/>
-                </TabPanel>
+                        <TabPanel value={value} hidden={false} index={0} dir={theme.direction}>
+                            <GameScreen/>
+                        </TabPanel>
 
-                <TabPanel className={"c_game2"} value={value} hidden={false}  index={1} dir={theme.direction}>
-                    <MessageScreen/>
-                </TabPanel>
+                        <TabPanel className={"c_game2"} value={value} hidden={false}  index={1} dir={theme.direction}>
+                            <MessageScreen/>
+                        </TabPanel>
 
-                <TabPanel className={"c_game2"}  value={value} hidden={false}  index={2} dir={theme.direction}>
-                    <MafiaMessageScreen/>
-                </TabPanel>
+                    </SwipeableViews>
+                    :
+                    <SwipeableViews
+                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
 
-            </SwipeableViews>
+                        <TabPanel value={value} hidden={false} index={0} dir={theme.direction}>
+                            <GameScreen/>
+                        </TabPanel>
+
+                        <TabPanel className={"c_game2"} value={value} hidden={false}  index={1} dir={theme.direction}>
+                            <MessageScreen/>
+                        </TabPanel>
+
+                        <TabPanel className={"c_game2"}  value={value} hidden={false}  index={2} dir={theme.direction}>
+                            <MafiaMessageScreen/>
+                        </TabPanel>
+
+                    </SwipeableViews>
+            }
 
             <AppBar position="static" color="default">
                 <Tabs
@@ -93,7 +118,10 @@ const FullWidthTabs = React.memo(props => {
                 >
                     <Tab label="Oyun" {...a11yProps(0)} />
                     <Tab label="Chat" {...a11yProps(1)} />
-                    <Tab label="Mafia Chat" {...a11yProps(2)} />:
+
+                    {
+                        amIMafia ? <Tab label="Mafia Chat" {...a11yProps(2)} /> : null
+                    }
 
                 </Tabs>
             </AppBar>
@@ -103,5 +131,7 @@ const FullWidthTabs = React.memo(props => {
 });
 
 export default FullWidthTabs;
+
+
 
 
