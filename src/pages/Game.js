@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import BottomNavigation from "../page-components/game/BottomNavigation";
 import PlayerListToggle from "../page-components/game/PlayerListToggle";
 import NotificationAlert from '../page-components/game/NotificationAlert'
-import {loggingContext} from "../Store";
+import {liveContext, loggingContext} from "../Store";
 import {Redirect} from "react-router-dom"
 
 export default function  Game(){

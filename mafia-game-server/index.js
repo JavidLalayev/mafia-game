@@ -466,8 +466,8 @@ io.on("connection", (socket) => {
         // console.log(current + ' comes --> ' + cnt + ' times\n\n\n');
       }
       
-      console.log("en cox: " + highest + ' comes --> ' + highest_count + ' times\n\n\n');
-      console.log("ikinci en cox: " + same_highest + ' comes --> ' + same_highest_count + ' times\n\n\n');
+      // console.log("en cox: " + highest + ' comes --> ' + highest_count + ' times\n\n\n');
+      // console.log("ikinci en cox: " + same_highest + ' comes --> ' + same_highest_count + ' times\n\n\n');
 
 
 
@@ -579,7 +579,7 @@ function distrubuteRoles() {
   }
   var onlyPlayers = players.filter(comparer(clientsWantToPlay));
   var onlyClients = clientsWantToPlay.filter(comparer(players));
-  result = onlyPlayers.concat(onlyClients);
+  let result = onlyPlayers.concat(onlyClients);
   result.map((user) => {
     players.push({
       role: roles.civil,
@@ -675,7 +675,7 @@ function nextDay(){
     mafias = players.filter((player) => {
       return player.role == roles.mafia || player.role == roles.don
     });  
-    playersWithoutMafia = players.filter((player) => {
+    let playersWithoutMafia = players.filter((player) => {
       return player.role != roles.mafia && player.role != roles.don
     });  
     

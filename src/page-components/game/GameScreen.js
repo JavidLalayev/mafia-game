@@ -80,15 +80,8 @@ export default () => {
                 }, 2000);
             }
         }else{
-
             setMyLive(true);
-            //burda olum mesaji olacaq
-            addMessage({
-                for: ROLES.all,
-                content: "Öldünüz",
-            })
         }
-
 
     });
 
@@ -152,17 +145,14 @@ export default () => {
 
 
     return(
-        !amIDie ?
-            <ScrollToBottom className={"c_game_screen"}>
+        <ScrollToBottom className={"c_game_screen"}>
 
             {
                 !isDay && myData.myRole === ROLES.civil ?
                     <Night/> : ""
             }
 
-
-
-            <button onClick={start}>adasd</button>
+            <button onClick={start}>Başla</button>
 
             <div className={"messages_screen"}>
                 <div className="chat">
@@ -192,7 +182,8 @@ export default () => {
 
                 </div>
             </div>
-        </ScrollToBottom> : ""
+
+        </ScrollToBottom>
     );
 
 }

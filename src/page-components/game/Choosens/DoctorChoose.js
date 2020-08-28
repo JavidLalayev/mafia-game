@@ -3,16 +3,23 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from "@material-ui/core/Avatar";
 import socket from "../../../services/socketIOService";
-import {myDataContext} from "../../../Store";
+import {liveContext, myDataContext} from "../../../Store";
 
 export default function DoctorChoose(props) {
 
     const [active, setActive] = useState(-1);
     const [myData] = useContext(myDataContext);
+    const [amIDie] = useContext(liveContext);
+
 
     const handleClick = (e, id) => {
-        setActive(id);
-        socket.emit("socketDoctorChoose", {senderId: myData.mySocketId, choosenId: id});
+
+        if (!amIDie){
+            setActive(id);
+            socket.emit("socketDoctorChoose", {senderId: myData.mySocketId, choosenId: id});
+        }else{
+            alert("Siz ölüsünüz səs verə bilməssiniz");
+        }
     };
 
     return (

@@ -3,13 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from "@material-ui/core/Avatar";
 import socket from "../../../services/socketIOService";
-import {myDataContext} from "../../../Store";
+import {liveContext, myDataContext} from "../../../Store";
 
 export default function MafiaChoose(props) {
 
     const [active, setActive] = useState(-1);
     const [mafiaChoose, setMafiaChoose] = useState([]);
     const [myData] = useContext(myDataContext);
+    const [amIDie] = useContext(liveContext);
+
 
     socket.off("mafiaChooseUpdate");
     socket.on("mafiaChooseUpdate", (mafiaChoose) => {
@@ -19,8 +21,14 @@ export default function MafiaChoose(props) {
     console.log(props);
 
     const handleClick = (e, id) => {
-        setActive(id);
-        socket.emit("socketChooseCivil", {senderId: myData.mySocketId, username: myData.username, choosenId: id});
+
+        if (!amIDie){
+            setActive(id);
+            socket.emit("socketChooseCivil", {senderId: myData.mySocketId, username: myData.username, choosenId: id});
+        }else{
+            alert("Siz ölüsünüz səs verə bilməssiniz");
+        }
+
     };
 
     return (
