@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import MafiaMessageSingle from "./MafiaMessageSingle";
 import SomeMafiaWritingMessage from "./SomeMafiaWritingMessage";
 import ScrollToBottom  from 'react-scroll-to-bottom';
 import socket from "../../../services/socketIOService";
+import {newMafiaMessageContext, newMessageContext, valueContext} from "../../../Store";
 
 export default function () {
 
     const [chatStorage, setChatStorage] = useState([]);
     const [writers, setWriters] = useState([]);
+    const [mafiaNewMessage, setMafiaNewMessage] = useContext(newMafiaMessageContext);
+    const [value, setValue] = useContext(valueContext);
 
 
     socket.off("mafia_message_send");
@@ -16,6 +19,12 @@ export default function () {
         setChatStorage(
             [...chatStorage, { sender: sender, msg: msg, pictureUrl: pictureUrl, socketId: socketId}]
         );
+
+        if (value !== 2){
+            setMafiaNewMessage(true);
+        }else{
+            setMafiaNewMessage(false);
+        }
     });
 
     socket.off("mafiaWriting");

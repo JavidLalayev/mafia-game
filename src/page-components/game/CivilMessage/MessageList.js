@@ -3,7 +3,7 @@ import MessageSingle from "./MessageSingle";
 import SomeOneWritingMessage from "./SomeOneWritingMessage";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import socket from "../../../services/socketIOService";
-import {newMessageContext} from "../../../Store";
+import {newMessageContext, valueContext} from "../../../Store";
 
 
 
@@ -12,7 +12,7 @@ export default function MessageList() {
     const [chatStorage, setChatStorage] = useState([]);
     const [writers, setWriters] = useState([]);
     const [newMessage, setNewMessage] = useContext(newMessageContext);
-    const [value, setValue] = useContext(newMessageContext);
+    const [value, setValue] = useContext(valueContext);
 
 
     socket.off("global_message_send");
@@ -22,12 +22,11 @@ export default function MessageList() {
             [...chatStorage, { sender: sender, msg: msg, pictureUrl: pictureUrl, socketId: socketId}]
         );
 
-        // if (value !== 1){
-        //     setNewMessage(true);
-        // }else{
-        //     setNewMessage(false);
-        // }
-        console.log(value);
+        if (value !== 1){
+            setNewMessage(true);
+        }else{
+            setNewMessage(false);
+        }
 
     });
 

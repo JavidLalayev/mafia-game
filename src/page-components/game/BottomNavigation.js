@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import GameScreen from "./GameScreen";
 import MessageScreen from "./CivilMessage/MessageScreen";
 import MafiaMessageScreen from "./MafiaMessage/MafiaMessageScreen";
-import {amIMafiaContext, newMessageContext} from "../../Store";
+import {amIMafiaContext, newMafiaMessageContext, newMessageContext, valueContext} from "../../Store";
 import socket from "../../services/socketIOService";
 import Badge from '@material-ui/core/Badge';
 
@@ -46,19 +46,29 @@ function a11yProps(index) {
 const FullWidthTabs = (props) => {
 
     const theme = useTheme();
-    const [value, setValue] = useContext(newMessageContext);
+    const [value, setValue] = useContext(valueContext);
     const [newMessage, setNewMessage] = useContext(newMessageContext);
+    const [mafiaNewMessage, setMafiaNewMessage] = useContext(newMafiaMessageContext);
     const [amIMafia, setMafia] = useContext(amIMafiaContext);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-
     };
 
     const handleChangeIndex = (index) => {
         setValue(index);
         return false;
     };
+
+    useEffect(() => {
+        if (value === 1){
+            setNewMessage(false);
+        }
+
+        if (value === 2){
+            setMafiaNewMessage(false);
+        }
+    }, [value]);
 
     return (
         <div style={{height: "100%"}}>
@@ -116,7 +126,7 @@ const FullWidthTabs = (props) => {
                     <Tab label={<Badge color="secondary" variant="dot" invisible={!newMessage}>Chat</Badge>} {...a11yProps(1)} />
 
                     {
-                        amIMafia ? <Tab label="Mafia Chat" {...a11yProps(2)} /> : null
+                        amIMafia ? <Tab label={<Badge color="secondary" variant="dot" invisible={!mafiaNewMessage}>Mafia Chat</Badge>} {...a11yProps(2)} /> : null
                     }
 
                 </Tabs>
