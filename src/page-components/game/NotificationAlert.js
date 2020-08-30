@@ -12,6 +12,7 @@ import doctorPicture from '../../static/img/doctor.jpg'
 import comisarPicture from '../../static/img/comisar.jpg'
 import citizenPicture from '../../static/img/citizen.jpg'
 import mafiaPicture from '../../static/img/mafia.jpg'
+import die from '../../static/img/die.jpg'
 
 
 function SimpleDialog(props) {
@@ -45,6 +46,7 @@ function SimpleDialog(props) {
         onClose(false);
     };
 
+
     return (
             !amIDie ?
                 <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className="c_dialog">
@@ -72,7 +74,7 @@ function SimpleDialog(props) {
                     </DialogTitle>
                     <div className="c_dialog_body">
 
-                        <img src={picture} alt="Don" className="c_center"/>
+                        <img src={die} alt="Don" className="c_center" width="131" height="196" style={{objectFit: "cover", backgroundPosition: "center"}}/>
 
                         <p>
                             Siz öldünüz artıq heckəs ilə ünsiyyət qura bilməzsiniz lakin oyunu izliyə bilərsiniz
@@ -129,7 +131,7 @@ export default function SimpleDialogDemo(props) {
 
     return (
         <div>
-            <SimpleDialog open={open} onClose={handleClose} message={myMessage} role={myData.myRole}/>
+            <SimpleDialog open={open} onClose={ handleClose} message={myMessage} role={myData.myRole}/>
         </div>
     );
 }

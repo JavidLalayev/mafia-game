@@ -1,4 +1,4 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
@@ -28,7 +28,6 @@ export default function MessageForm(){
     function handleChange(e) {
         setValue(e.target.value);
     }
-
 
     const timeoutFunction = () => {
         setTyping(false);

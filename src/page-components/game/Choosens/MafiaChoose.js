@@ -18,7 +18,6 @@ export default function MafiaChoose(props) {
         setMafiaChoose(mafiaChoose);
     });
 
-    console.log(props);
 
     const handleClick = (e, id) => {
 

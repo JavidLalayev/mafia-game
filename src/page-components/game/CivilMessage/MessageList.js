@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import MessageSingle from "./MessageSingle";
 import SomeOneWritingMessage from "./SomeOneWritingMessage";
-import ScrollToBottom, { useScrollToBottom } from 'react-scroll-to-bottom';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import socket from "../../../services/socketIOService";
+import {newMessageContext} from "../../../Store";
 
 
 
@@ -10,8 +11,9 @@ export default function MessageList() {
     const [isFirst, setCond] = useState(true);
     const [chatStorage, setChatStorage] = useState([]);
     const [writers, setWriters] = useState([]);
+    const [newMessage, setNewMessage] = useContext(newMessageContext);
+    const [value, setValue] = useContext(newMessageContext);
 
-    const scrollToBottom = useScrollToBottom();
 
     socket.off("global_message_send");
     socket.on("global_message_send", ({ sender, msg, pictureUrl, socketId, writers}) => {
@@ -19,6 +21,14 @@ export default function MessageList() {
         setChatStorage(
             [...chatStorage, { sender: sender, msg: msg, pictureUrl: pictureUrl, socketId: socketId}]
         );
+
+        // if (value !== 1){
+        //     setNewMessage(true);
+        // }else{
+        //     setNewMessage(false);
+        // }
+        console.log(value);
+
     });
 
     socket.off("someoneWriting");

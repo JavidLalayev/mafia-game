@@ -6,6 +6,8 @@ export const loggingContext = React.createContext();
 export const amIMafiaContext = React.createContext();
 export const DayContext = React.createContext();
 export const liveContext = React.createContext();
+export const gameContext = React.createContext();
+export const newMessageContext = React.createContext();
 
 const Store = ({children}) => {
 
@@ -18,13 +20,16 @@ const Store = ({children}) => {
     const [userTypes, setUserTypes] = useState({
         allUsers: [],
         spectators: [],
-        players: []
+        players: [],
+        deadPlayers: []
     });
     const [loggedOn, setLoggedOn] = useState(false);
     const [amIMafia, setMafia] = useState(false);
     const [isDay, setDay] = useState(true);
     const [amIDie, setMyLive] = useState(false);
-
+    const [isGameStart, setGame] = useState(false);
+    const [newMessage, setNewMessage] = React.useState(false);
+    const [value, setValue] = React.useState(0);
 
     return(
         <myDataContext.Provider value={[myData, setMyData]}>
@@ -38,7 +43,15 @@ const Store = ({children}) => {
                         <DayContext.Provider value={[isDay, setDay]}>
 
                             <liveContext.Provider value={[amIDie, setMyLive]}>
-                                {children}
+
+                                <gameContext.Provider value={[isGameStart, setGame]}>
+
+                                    <newMessageContext.Provider value={[value, setValue]}>
+                                        {children}
+                                    </newMessageContext.Provider>
+
+                                </gameContext.Provider>
+
                             </liveContext.Provider>
 
                         </DayContext.Provider>

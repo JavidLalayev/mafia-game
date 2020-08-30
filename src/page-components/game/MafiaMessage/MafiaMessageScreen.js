@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import MafiaMessageForm from './MafiaMessageForm'
 import MafiaMessageList from './MafiaMessageList'
 import MafiaMessageScreenHeader from './MafiaMessageScreenHeader'

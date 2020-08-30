@@ -38,7 +38,8 @@ export default function TemporaryDrawer() {
         setUserTypes({
             allUsers: allUsers,
             spectators: spectators,
-            players: players
+            players: players,
+            deadPlayers: []
         })
     });
 
@@ -63,7 +64,22 @@ export default function TemporaryDrawer() {
                 <span style={{marginLeft: "20px", fontSize: "18px", fontWeight: "bold"}}>Oyunçular</span>
 
                 {
-                    userTypes.allUsers.map((user) =>
+                    userTypes.players.length === 0 ? userTypes.allUsers.map((user) =>
+                        <ListItem button key={user.id}>
+
+                            <ListItemIcon>
+                                <Avatar alt={user.username} src={user.picture} />
+                            </ListItemIcon>
+
+                            <ListItemText primary={user.username} />
+
+                        </ListItem> ) : ""
+                }
+
+
+
+                {
+                    userTypes.players.map((user) =>
                         <ListItem button key={user.id}>
 
                             <ListItemIcon>
@@ -74,6 +90,20 @@ export default function TemporaryDrawer() {
 
                         </ListItem> )
                 }
+
+                {
+                    userTypes.deadPlayers.map((user) =>
+                        <ListItem button key={user.id}>
+
+                            <ListItemIcon>
+                                <Avatar alt={user.username} src={user.picture} />
+                            </ListItemIcon>
+
+                            <ListItemText primary={user.username + " öldü"} />
+
+                        </ListItem> )
+                }
+
             </List>
 
             <Divider />

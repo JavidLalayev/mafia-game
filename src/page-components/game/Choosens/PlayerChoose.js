@@ -34,7 +34,6 @@ export default function PlayerChoose(props) {
 
     };
 
-    console.log("playerss", props.players);
 
     return (
         <div className="chat-message">

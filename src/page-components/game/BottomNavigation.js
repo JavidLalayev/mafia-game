@@ -1,16 +1,18 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import GameScreen from "./GameScreen";
 import MessageScreen from "./CivilMessage/MessageScreen";
 import MafiaMessageScreen from "./MafiaMessage/MafiaMessageScreen";
-import {amIMafiaContext} from "../../Store";
+import {amIMafiaContext, newMessageContext} from "../../Store";
+import socket from "../../services/socketIOService";
+import Badge from '@material-ui/core/Badge';
 
-const TabPanel = React.memo(props => {
+const TabPanel = (props) => {
 
     const { children, value, index, ...other } = props;
 
@@ -23,10 +25,10 @@ const TabPanel = React.memo(props => {
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
         >
-                    {children}
+            {children}
         </div>
     );
-});
+};
 TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
@@ -40,23 +42,17 @@ function a11yProps(index) {
     };
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
 
+const FullWidthTabs = (props) => {
 
-
-const FullWidthTabs = React.memo(props => {
-
-    const classes = useStyles();
     const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useContext(newMessageContext);
+    const [newMessage, setNewMessage] = useContext(newMessageContext);
     const [amIMafia, setMafia] = useContext(amIMafiaContext);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+
     };
 
     const handleChangeIndex = (index) => {
@@ -117,7 +113,7 @@ const FullWidthTabs = React.memo(props => {
                     aria-label="full width tabs example"
                 >
                     <Tab label="Oyun" {...a11yProps(0)} />
-                    <Tab label="Chat" {...a11yProps(1)} />
+                    <Tab label={<Badge color="secondary" variant="dot" invisible={!newMessage}>Chat</Badge>} {...a11yProps(1)} />
 
                     {
                         amIMafia ? <Tab label="Mafia Chat" {...a11yProps(2)} /> : null
@@ -128,7 +124,7 @@ const FullWidthTabs = React.memo(props => {
 
         </div>
     );
-});
+};
 
 export default FullWidthTabs;
 
